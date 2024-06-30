@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.google.service)
     alias(libs.plugins.firebase.crashlytics)
+    alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -49,7 +51,11 @@ dependencies {
     implementation(libs.firebase.perf)
     implementation(libs.firebase.remote.config)
     implementation(libs.google.firebase.crashlytics)
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hilt.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(project(":core"))
 }
