@@ -11,10 +11,11 @@ activity = "1.9.0"
 constraintlayout = "2.1.4"
 retrofit = "2.11.0"
 gson = "2.10.1"
-crashlytics = "2.9.9"
-firebaseBom = "32.8.1"
+crashlytics = "3.0.1"
+firebaseBom = "33.1.1"
 hilt = "2.51.1"
 roomRuntime = "2.6.1"
+okhttp = "4.12.0"
 
 
 [libraries]
@@ -37,9 +38,15 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version.ref = "firebaseBom" }
 firebase-analytics = { group = "com.google.firebase", name = "firebase-analytics-ktx" }
-firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics-ktx" }
+firebase-crashlytics = { group = "com.google.firebase", name = "firebase-crashlytics" }
+google-firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics" }
 firebase-perf = { group = "com.google.firebase", name = "firebase-perf-ktx" }
 firebase-remote-config = { group = "com.google.firebase", name = "firebase-config-ktx" }
+
+okhttp-bom = { group = "com.squareup.okhttp3", name = "okhttp-bom", version.ref = "okhttp" }
+okhttp = { group = "com.squareup.okhttp3", name = "okhttp" }
+okhttp-logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-interceptor" }
+squareup-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -49,4 +56,6 @@ kotlin-parcelize = { id = "org.jetbrains.kotlin.plugin.parcelize", version.ref =
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 firebase-crashlytics = { id = "com.google.firebase.crashlytics", version.ref = "crashlytics" }
 android-library = { id = "com.android.library", version.ref = "agp" }
+room-db = {id = "androidx.room", version.ref = "roomRuntime"}
+google-service = {id = "com.google.gms.google-services", version = "4.4.2"}
 

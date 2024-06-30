@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.jetbrains.kotlin.android)
     alias(libs.plugins.kotlin.kapt)
+    alias(libs.plugins.room.db)
+    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -31,6 +33,14 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    room {
+        schemaDirectory("$projectDir/schemas")
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
 }
 
 dependencies {
@@ -38,10 +48,16 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.firebase.crashlytics)
     implementation(libs.gson)
+    implementation(libs.retrofit)
+    implementation(libs.squareup.converter.gson)
     implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
+    implementation(platform(libs.okhttp.bom))
+    implementation(libs.okhttp)
+    implementation(libs.okhttp.logging.interceptor)
+    implementation(libs.dagger.hilt)
+    kapt(libs.dagger.hilt.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1085059742051",
+    "project_id": "ahamove-d1867",
+    "storage_bucket": "ahamove-d1867.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1085059742051:android:494a4e27b21270e3dd7b56",
+        "android_client_info": {
+          "package_name": "com.kt.apps.media.ahamove"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXiCZ78bng3eEXmVG6k7G4mwInhAq2d6g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
