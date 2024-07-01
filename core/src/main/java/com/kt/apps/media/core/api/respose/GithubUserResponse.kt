@@ -14,12 +14,12 @@ data class GithubUserResponse(
     @SerializedName("email")
     val email: String,
     @SerializedName("followers")
-    val followers: Int,
+    val followers: Long,
     @SerializedName("following")
     val following: Int,
     @SerializedName("hooks_url")
     val hooksUrl: String,
-    @SerializedName("hooks_url")
+    @SerializedName("html_url")
     val htmlUrl: String,
     @SerializedName("id")
     val id: Int,

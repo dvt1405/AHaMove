@@ -57,6 +57,9 @@ class KeyValueStorageImpl @Inject constructor(
     }
 
     override fun getLong(key: String, defValue: Long): Long {
+        if (!_sharePref.contains(key)) {
+            return defValue
+        }
         return _sharePref.getLong(key, defValue)
     }
 
@@ -64,7 +67,6 @@ class KeyValueStorageImpl @Inject constructor(
         _sharePref.edit()
             .putLong(key, value)
             .apply()
-        save(key, value, Long::class.java)
     }
 
     override fun deleteKey(key: String) {

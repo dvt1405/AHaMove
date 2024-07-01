@@ -36,7 +36,7 @@ data class GithubRepoItem(
     @SerializedName("deployments_url")
     val deploymentsUrl: String,
     @SerializedName("description")
-    val description: String,
+    val description: String?,
     @SerializedName("disabled")
     val disabled: Boolean,
     @SerializedName("downloads_url")
@@ -48,7 +48,7 @@ data class GithubRepoItem(
     @SerializedName("forks")
     val forks: Int,
     @SerializedName("forks_count")
-    val forksCount: Int,
+    val forksCount: Long,
     @SerializedName("forks_url")
     val forksUrl: String,
     @SerializedName("full_name")
@@ -94,7 +94,7 @@ data class GithubRepoItem(
     @SerializedName("labels_url")
     val labelsUrl: String,
     @SerializedName("language")
-    val language: String,
+    val language: String?,
     @SerializedName("languages_url")
     val languagesUrl: String,
     @SerializedName("license")
@@ -132,7 +132,7 @@ data class GithubRepoItem(
     @SerializedName("ssh_url")
     val sshUrl: String,
     @SerializedName("stargazers_count")
-    val stargazersCount: Int,
+    val stargazersCount: Long,
     @SerializedName("stargazers_url")
     val stargazersUrl: String,
     @SerializedName("statuses_url")

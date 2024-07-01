@@ -11,11 +11,12 @@ data class GithubRepo(
     var fullName: String = "",
     var private: Boolean = false,
     var size: Int = -1,
-    var stargazersCount: Int = -1,
+    var stargazersCount: Long = -1L,
     var watchersCount: Int = -1,
-    var language: String = "",
-    var forksCount: Int = -1,
+    var language: String? = null,
+    var forksCount: Long = -1L,
     var openIssueCount: Int = -1,
-    var url: String = ""
+    var url: String = "",
+    var description: String? = null
 ) {
 }

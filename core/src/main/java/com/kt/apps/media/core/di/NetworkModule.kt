@@ -44,6 +44,7 @@ object NetworkModule {
     @Provides
     @Singleton
     fun provideHttpClient(
+        @Named(LOGGING_INTERCEPTOR)
         interceptor: Interceptor
     ): OkHttpClient {
         return OkHttpClient.Builder()

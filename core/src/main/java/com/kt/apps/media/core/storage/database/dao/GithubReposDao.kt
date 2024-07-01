@@ -14,8 +14,8 @@ abstract class GithubReposDao {
     @Query("Select * from GithubRepo")
     abstract suspend fun getAll(): List<GithubRepo>
 
-    @Query("Select * from GithubRepo limit :perPage offset :page*:perPage")
-    abstract suspend fun loadItems(page: Int, perPage: Int): List<GithubRepo>
+    @Query("Select * from GithubRepo limit :perPage offset :offset")
+    abstract suspend fun loadItems(offset: Int, perPage: Int): List<GithubRepo>
 
     @Query("Delete from GithubRepo")
     abstract suspend fun deleteAllItems()
