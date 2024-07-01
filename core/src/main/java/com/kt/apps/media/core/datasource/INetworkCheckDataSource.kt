@@ -5,5 +5,5 @@ import kotlinx.coroutines.flow.StateFlow
 interface INetworkCheckDataSource {
     fun checkIsNetworkOnline(): Boolean
 
-    fun networkState(): StateFlow<Boolean>
+    suspend fun networkState(): StateFlow<Boolean>
 }

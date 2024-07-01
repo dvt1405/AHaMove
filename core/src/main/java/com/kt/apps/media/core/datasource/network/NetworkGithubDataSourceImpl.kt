@@ -11,9 +11,7 @@ import com.kt.apps.media.core.exceptions.mappingErrorCode
 import com.kt.apps.media.core.utils.ErrorCode
 import com.kt.apps.media.core.utils.mapper.toGithubRepoDTO
 import com.kt.apps.media.core.utils.mapper.toGithubUserDTO
-import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.withTimeoutOrNull
-import java.util.concurrent.TimeoutException
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -136,7 +134,7 @@ class NetworkGithubDataSourceImpl @Inject constructor(
         throw IllegalStateException("Not support save to cloud")
     }
 
-    override suspend fun saveUserInfo(userResponse: GithubUserDTO) {
+    override suspend fun saveUserInfo(name: String, userResponse: GithubUserDTO) {
         throw IllegalStateException("Not support save to cloud")
     }
 

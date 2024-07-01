@@ -3,7 +3,51 @@
     <style name="Base.Theme.AHamove" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="fontHeading">@font/roboto_bold</item>
+        <item name="fontTitle">@font/roboto_medium</item>
+        <item name="fontBody">@font/roboto_medium</item>
+        <item name="fontNormal">@font/roboto</item>
+        <item name="textSizeHeading">22sp</item>
+        <item name="textSizeTitle">14sp</item>
+        <item name="textSizeNormal">14sp</item>
+        <item name="textSizeBody">12sp</item>
+        <item name="textSizeSmall">11sp</item>
+        <item name="textColorHeading">@color/color_text_title</item>
+        <item name="textColorTitle">@color/color_text_title</item>
+        <item name="textColorBody">@color/color_text_normal</item>
+        <item name="textColorLink">@color/color_text_link</item>
+        <item name="android:fontFamily">?fontNormal</item>
+        <item name="android:textSize">?textSizeNormal</item>
     </style>
 
     <style name="Theme.AHamove" parent="Base.Theme.AHamove" />
+
+    <style name="TextAppearance.Heading" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">?fontHeading</item>
+        <item name="android:textSize">?textSizeHeading</item>
+        <item name="android:textColor">?textColorHeading</item>
+    </style>
+
+    <style name="TextAppearance.Title" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">?fontTitle</item>
+        <item name="android:textSize">?textSizeTitle</item>
+        <item name="android:textColor">?textColorTitle</item>
+    </style>
+
+    <style name="TextAppearance.Body" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">?fontBody</item>
+        <item name="android:textSize">?textSizeBody</item>
+        <item name="android:textColor">?textColorBody</item>
+        <item name="drawableTint">?textColorLink</item>
+        <item name="android:drawableTint">?textColorLink</item>
+    </style>
+
+    <style name="TextAppearance.Link" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">?fontBody</item>
+        <item name="android:textSize">?textSizeBody</item>
+        <item name="android:textColor">?textColorLink</item>
+        <item name="drawableTint">?textColorLink</item>
+        <item name="android:drawableTint">?textColorLink</item>
+    </style>
+
 </resources>

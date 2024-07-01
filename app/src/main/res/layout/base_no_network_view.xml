@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/no_network_view"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:elevation="10dp"
+    android:gravity="bottom"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/no_network_title_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?textColorBody"
+        android:fontFamily="?fontBody"
+        android:gravity="center"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="10dp"
+        android:text="@string/no_internet_warning_title"
+        android:textColor="@color/white"
+        android:textSize="?textSizeBody" />
+
+</LinearLayout>

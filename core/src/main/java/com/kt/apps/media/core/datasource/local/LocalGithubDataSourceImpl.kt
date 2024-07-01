@@ -1,5 +1,6 @@
 package com.kt.apps.media.core.datasource.local
 
+import android.util.Log
 import com.kt.apps.media.core.Constants
 import com.kt.apps.media.core.datasource.IGithubDataSource
 import com.kt.apps.media.core.models.GithubRepoDTO
@@ -43,8 +44,8 @@ class LocalGithubDataSourceImpl @Inject constructor(
         })
     }
 
-    override suspend fun saveUserInfo(userResponse: GithubUserDTO) {
-        keyValueStorage.save(userResponse.name, userResponse, GithubUserDTO::class.java)
+    override suspend fun saveUserInfo(name: String, userResponse: GithubUserDTO) {
+        keyValueStorage.save(name, userResponse, GithubUserDTO::class.java)
         keyValueStorage.setLong(Constants.KEY_LAST_UPDATE_USER_TIME, System.currentTimeMillis())
     }
 }

@@ -2,4 +2,23 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="color_separator">#d0d7de</color>
+    <color name="color_language_background_stroke_separator">#d0d7deb3</color>
+    <color name="color_text_normal">#636C76</color>
+    <color name="color_text_title">#1f2328</color>
+    <color name="color_text_link">#1f2328</color>
+    <color name="color_text_high_light">#0969DA</color>
+    <color name="repo_color_language_java">#b07219</color>
+    <color name="repo_color_language_java_script">#f1e05a</color>
+    <color name="repo_color_language_html">#e34c26</color>
+    <color name="repo_color_language_go">#00ADD8</color>
+    <color name="repo_color_language_python">#3572A5</color>
+    <color name="repo_color_language_rust">#dea584</color>
+    <color name="repo_color_language_dart">#00B4AB</color>
+    <color name="repo_color_language_kotlin">#A97BFF</color>
+    <color name="repo_color_language_c_plus">#F34B7D</color>
+    <color name="repo_color_language_c">#555555</color>
+    <color name="repo_color_language_shell">#89E051</color>
+    <color name="repo_color_language_type_script">#3178C6</color>
+    <color name="repo_color_language_objective_c">#6866FB</color>
 </resources>

@@ -1,5 +1,6 @@
 package com.kt.apps.media.core.repository
 
+import android.util.Log
 import com.kt.apps.media.core.Constants
 import com.kt.apps.media.core.datasource.IGithubDataSource
 import com.kt.apps.media.core.datasource.INetworkCheckDataSource
@@ -28,7 +29,7 @@ class GithubRepositoryImpl @Inject constructor(
         val networkRs = networkDataSource.fetchUserInfo(name)
         if (networkRs.isSuccess) {
             val userInfo = networkRs.getOrThrow()
-            localDataSource.saveUserInfo(userInfo)
+            localDataSource.saveUserInfo(name, userInfo)
         }
         return networkRs.getOrThrow()
     }
@@ -41,7 +42,7 @@ class GithubRepositoryImpl @Inject constructor(
         val networkRs = networkDataSource.fetchUserInfo(name)
         if (networkRs.isSuccess) {
             val userInfo = networkRs.getOrThrow()
-            localDataSource.saveUserInfo(userInfo)
+            localDataSource.saveUserInfo(name, userInfo)
         }
     }
 

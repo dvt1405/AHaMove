@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="fontHeading" format="reference" />
+    <attr name="fontTitle" format="reference" />
+    <attr name="fontBody" format="reference" />
+    <attr name="fontNormal" format="reference" />
+    <attr name="textSizeHeading" format="dimension|reference" />
+    <attr name="textSizeTitle" format="dimension|reference" />
+    <attr name="textSizeBody" format="dimension|reference" />
+    <attr name="textSizeNormal" format="dimension|reference" />
+    <attr name="textSizeSmall" format="dimension|reference" />
+    <attr name="textColorTitle" format="color|reference" />
+    <attr name="textColorHeading" format="color|reference" />
+    <attr name="textColorBody" format="color|reference" />
+    <attr name="textColorLink" format="color|reference" />
+</resources>
