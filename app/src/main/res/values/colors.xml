@@ -21,4 +21,5 @@
     <color name="repo_color_language_shell">#89E051</color>
     <color name="repo_color_language_type_script">#3178C6</color>
     <color name="repo_color_language_objective_c">#6866FB</color>
+    <color name="repo_color_language_ruby">#701516</color>
 </resources>

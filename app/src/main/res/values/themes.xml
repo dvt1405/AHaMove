@@ -20,6 +20,10 @@
         <item name="android:textSize">?textSizeNormal</item>
     </style>
 
+    <style name="CustomAlertDialogTheme" parent="ThemeOverlay.Material3.MaterialAlertDialog.Centered">
+        <item name="android:windowBackground">@drawable/background_dialog</item>
+    </style>
+
     <style name="Theme.AHamove" parent="Base.Theme.AHamove" />
 
     <style name="TextAppearance.Heading" parent="Widget.AppCompat.TextView">

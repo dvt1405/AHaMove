@@ -119,6 +119,7 @@ class MainViewModel @Inject constructor(
                 currentPage++
                 _githubRepos.postValue(DataState.Success(listItem))
             } catch (e: Exception) {
+                _githubRepos.postValue(DataState.Error(e))
             }
         }
     }

@@ -8,34 +8,27 @@ import android.os.Bundle
 import android.text.SpannableString
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewGroup.MarginLayoutParams
 import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import androidx.core.view.marginBottom
-import androidx.core.view.setPadding
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.kt.apps.media.ahamove.databinding.ActivityMainBinding
 import com.kt.apps.media.core.models.DataState
 import com.kt.apps.media.core.utils.format
+import com.kt.skeleton.KunSkeleton
+import com.kt.skeleton.RecyclerViewSkeletonScreen
+import com.kt.skeleton.ViewSkeletonScreen
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -43,13 +36,15 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private val viewModel by viewModels<MainViewModel>()
     private val adapter by lazy { GithubRepoAdapter() }
+    private var userFormLoading: ViewSkeletonScreen? = null
+    private var reposLoading: RecyclerViewSkeletonScreen? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
-        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { v, insets ->
+        ViewCompat.setOnApplyWindowInsetsListener(binding.swipeRefreshContainer) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
@@ -128,7 +123,11 @@ class MainActivity : AppCompatActivity() {
         viewModel.githubUserInfo.observe(this) { dataState ->
             when (dataState) {
                 is DataState.Loading -> {
-
+                    if (userFormLoading == null) {
+                        userFormLoading = KunSkeleton.bind(binding.userForm)
+                            .layout(R.layout.loading_github_user_form)
+                            .run()
+                    }
                 }
 
                 is DataState.Error -> {
@@ -136,6 +135,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 is DataState.Success -> {
+                    userFormLoading?.hide {
+                        userFormLoading = null
+                    }
                     val data = dataState.data
                     binding.userName.text = data.name
                     binding.userDescription.text = data.description
@@ -164,15 +166,35 @@ class MainActivity : AppCompatActivity() {
         viewModel.githubRepos.observe(this) { dataState ->
             when (dataState) {
                 is DataState.Loading -> {
-
+                    if (reposLoading == null) {
+                        reposLoading = KunSkeleton.bind(binding.recyclerView)
+                            .adapter(adapter)
+                            .layoutItem(R.layout.loading_item_github_repo)
+                            .run()
+                    }
                 }
 
                 is DataState.Error -> {
-
+                    binding.swipeRefreshContainer.isRefreshing = false
+                    AlertDialog.Builder(
+                        this,
+                        R.style.CustomAlertDialogTheme
+                    )
+                        .setMessage(dataState.throwable.message)
+                        .setPositiveButton(R.string.reload_title) { dialog, which ->
+                            viewModel.refreshRepos()
+                        }
+                        .setNegativeButton(android.R.string.cancel) { dialog, which ->
+                            dialog.dismiss()
+                        }
+                        .show()
                 }
 
                 is DataState.Success -> {
                     binding.swipeRefreshContainer.isRefreshing = false
+                    reposLoading?.hide {
+                        reposLoading = null
+                    }
                     adapter.onRefresh(dataState.data)
                 }
             }

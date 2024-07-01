@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="@dimen/common_padding"
+    android:background="@drawable/background_box_out_line"
+    android:foreground="?selectableItemBackground"
+    android:orientation="vertical"
+    android:paddingHorizontal="@dimen/common_padding"
+    android:paddingVertical="@dimen/common_padding">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="1">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/anim_list_text_view"
+            android:textSize="?textSizeNormal" />
+
+        <TextView
+            android:id="@+id/is_private_tags"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:background="@drawable/anim_list_text_view"
+            android:fontFamily="@font/roboto_medium"
+            android:paddingHorizontal="@dimen/common_padding_small"
+            android:textSize="?textSizeSmall" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/description"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/anim_list_text_view"
+        android:textSize="?textSizeBody" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/common_padding_small"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/common_padding_small"
+            android:background="@drawable/anim_list_text_view"
+            android:textSize="?textSizeBody" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/common_padding_small"
+            android:background="@drawable/anim_list_text_view"
+            android:textSize="?textSizeBody" />
+
+        <TextView
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/common_padding_small"
+            android:background="@drawable/anim_list_text_view"
+            android:textSize="?textSizeBody" />
+    </LinearLayout>
+
+
+</LinearLayout>
