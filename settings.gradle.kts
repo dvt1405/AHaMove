@@ -22,3 +22,4 @@ dependencyResolutionManagement {
 rootProject.name = "AHamove"
 include(":app")
 include(":core")
+include(":skeleton")
