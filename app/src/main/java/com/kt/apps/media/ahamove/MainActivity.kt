@@ -22,6 +22,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.kt.apps.media.ahamove.databinding.ActivityMainBinding
 import com.kt.apps.media.core.models.DataState
 import com.kt.apps.media.core.utils.format
@@ -58,6 +61,19 @@ class MainActivity : AppCompatActivity() {
         }
         handleUserInfo()
         handleRepos()
+        binding.recyclerView.addOnScrollListener(object : OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                (recyclerView.layoutManager as? LinearLayoutManager)?.run {
+                    val lastVisibleItem = this.findLastVisibleItemPosition()
+                    if (!adapter.isRefreshing && lastVisibleItem == adapter.itemCount - 1 &&
+                        !viewModel.isRepoLoading()
+                    ) {
+                        viewModel.loadMoreRepos()
+                    }
+                }
+            }
+        })
     }
 
     override fun onStart() {
@@ -158,6 +174,8 @@ class MainActivity : AppCompatActivity() {
                     )
                     binding.follower.text = span
                 }
+
+                else -> {}
             }
         }
     }
@@ -196,6 +214,15 @@ class MainActivity : AppCompatActivity() {
                         reposLoading = null
                     }
                     adapter.onRefresh(dataState.data)
+                }
+
+                is DataState.LoadingMore -> {
+                    adapter.onLoadingMore()
+                    binding.recyclerView.scrollToPosition(adapter.itemCount)
+                }
+
+                is DataState.PaginationItem -> {
+                    adapter.onAdd(dataState.data)
                 }
             }
         }

@@ -15,26 +15,42 @@ import com.kt.apps.media.core.models.GithubRepoDTO
 import com.kt.apps.media.core.utils.format
 import com.kt.apps.media.getBackgroundColor
 
-class GithubRepoAdapter : ListAdapter<GithubRepoDTO, GithubRepoAdapter.ViewHolder>(diffCallback) {
+class GithubRepoAdapter : ListAdapter<GithubRepoDTO, GithubRepoAdapter.BaseViewHolder>(diffCallback) {
     var itemClickListener: ((GithubRepoDTO, Int) -> Unit)? = null
+    var isRefreshing = false
     private val _listItem by lazy {
         mutableListOf<GithubRepoDTO>()
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.item_github_repo, parent, false)
-        )
+    override fun getItemViewType(position: Int): Int {
+        return if (isRefreshing && position == _listItem.size) {
+            R.layout.loading_item_github_repo
+        } else {
+            R.layout.item_github_repo
+        }
+    }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
+        return when (viewType) {
+            R.layout.loading_item_github_repo -> LoadingViewHolder(view)
+            else -> ViewHolder(view)
+        }
     }
 
     override fun getItemCount(): Int {
-        return _listItem.size
+        return if (isRefreshing) {
+            _listItem.size + 1
+        } else {
+            _listItem.size
+        }
     }
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = _listItem[position]
-        holder.bindItem(item, itemClickListener)
-
+    override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
+        if (holder is ViewHolder) {
+            val item = _listItem[position]
+            holder.bindItem(item, itemClickListener)
+        }
     }
 
     fun onRefresh(data: List<GithubRepoDTO>) {
@@ -45,7 +61,24 @@ class GithubRepoAdapter : ListAdapter<GithubRepoDTO, GithubRepoAdapter.ViewHolde
         }
     }
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    fun onLoadingMore() {
+        isRefreshing = true
+        notifyItemInserted(_listItem.size)
+    }
+
+    fun onAdd(data: List<GithubRepoDTO>) {
+        synchronized(_listItem) {
+            _listItem.addAll(data)
+        }
+        isRefreshing = false
+        notifyItemRangeChanged(_listItem.size, data.size)
+    }
+
+    abstract class BaseViewHolder(view: View) : RecyclerView.ViewHolder(view)
+
+    class LoadingViewHolder(view: View) : BaseViewHolder(view)
+
+    class ViewHolder(view: View) : BaseViewHolder(view) {
         private val repoNameTxt: TextView
         private val repoDescriptionTxt: TextView
         private val repoIsPrivateTxt: TextView

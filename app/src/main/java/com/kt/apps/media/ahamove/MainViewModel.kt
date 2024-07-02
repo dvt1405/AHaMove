@@ -116,8 +116,11 @@ class MainViewModel @Inject constructor(
                     currentPage,
                     20
                 )
-                currentPage++
-                _githubRepos.postValue(DataState.Success(listItem))
+                if (currentPage == 0) {
+                    _githubRepos.postValue(DataState.Success(listItem))
+                } else {
+                    _githubRepos.postValue(DataState.PaginationItem(currentPage, listItem))
+                }
             } catch (e: Exception) {
                 _githubRepos.postValue(DataState.Error(e))
             }
@@ -130,6 +133,17 @@ class MainViewModel @Inject constructor(
         if (_githubUserInfo.value is DataState.Error) {
             getGithubUser()
         }
+    }
+
+    fun loadMoreRepos() {
+        currentPage++
+        _githubRepos.postValue(DataState.LoadingMore(currentPage))
+        loadRepos()
+    }
+
+    fun isRepoLoading(): Boolean {
+        val currentDataState = _githubRepos.value
+        return currentDataState is DataState.Loading || currentDataState is DataState.LoadingMore
     }
 
 }
