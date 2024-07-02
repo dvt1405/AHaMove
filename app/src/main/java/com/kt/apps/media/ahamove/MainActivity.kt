@@ -15,6 +15,7 @@ import android.view.WindowInsets
 import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.appcompat.app.AlertDialog
@@ -81,6 +82,16 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         })
+        adapter.itemClickListener = { item, index ->
+            Toast.makeText(
+                this, getString(
+                    R.string.item_selected_toast,
+                    item.name,
+                    item.stargazersCount
+                ), Toast.LENGTH_SHORT
+            )
+                .show()
+        }
     }
 
     private fun handleRecyclerScrolled(recyclerView: RecyclerView) {
