@@ -27,7 +27,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.kt.apps.media.ahamove.databinding.ActivityMainBinding
+import com.kt.apps.media.core.exceptions.CusException
 import com.kt.apps.media.core.models.DataState
+import com.kt.apps.media.core.utils.ErrorCode
 import com.kt.apps.media.core.utils.format
 import com.kt.apps.media.core.utils.loadImageUrl
 import com.kt.skeleton.KunSkeleton
@@ -95,7 +97,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
             if (!adapter.isRefreshing && lastVisibleItem == adapter.itemCount - 1 &&
-                !viewModel.isRepoLoading()
+                !viewModel.isRepoLoading() && !adapter.isPaginationEnd
             ) {
                 viewModel.loadMoreRepos()
             }
@@ -220,6 +222,14 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 is DataState.Error -> {
+                    val throwable = dataState.throwable
+                    if (throwable is CusException) {
+                        val errorCode = throwable.errorCode
+                        if (errorCode == ErrorCode.END_OF_PAGINATION_DATA) {
+                            adapter.onPaginationEnd()
+                            return@observe
+                        }
+                    }
                     binding.swipeRefreshContainer.isRefreshing = false
                     AlertDialog.Builder(
                         this,
@@ -249,7 +259,9 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 is DataState.PaginationItem -> {
-                    adapter.onAdd(dataState.data)
+                    if (dataState.data.isNotEmpty()) {
+                        adapter.onAdd(dataState.data)
+                    }
                 }
             }
         }

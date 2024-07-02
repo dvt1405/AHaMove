@@ -1,10 +1,8 @@
 package com.kt.apps.media.ahamove
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.kt.apps.media.core.Constants
 import com.kt.apps.media.core.datasource.INetworkCheckDataSource
@@ -13,20 +11,10 @@ import com.kt.apps.media.core.models.DataState
 import com.kt.apps.media.core.models.GithubRepoDTO
 import com.kt.apps.media.core.models.GithubUserDTO
 import com.kt.apps.media.core.repository.IGithubRepository
-import com.kt.apps.media.core.storage.database.dbmodels.GithubRepo
 import com.kt.apps.media.core.storage.keyvalue.IKeyValueStorage
 import com.kt.apps.media.core.utils.ErrorCode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.SharingStarted.Companion.WhileSubscribed
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.shareIn
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -118,6 +106,8 @@ class MainViewModel @Inject constructor(
                 )
                 if (currentPage == 0) {
                     _githubRepos.postValue(DataState.Success(listItem))
+                } else if (listItem.isEmpty()) {
+                    throw CusException(ErrorCode.END_OF_PAGINATION_DATA)
                 } else {
                     _githubRepos.postValue(DataState.PaginationItem(currentPage, listItem))
                 }

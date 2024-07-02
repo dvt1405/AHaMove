@@ -18,6 +18,7 @@ import com.kt.apps.media.getBackgroundColor
 class GithubRepoAdapter : ListAdapter<GithubRepoDTO, GithubRepoAdapter.BaseViewHolder>(diffCallback) {
     var itemClickListener: ((GithubRepoDTO, Int) -> Unit)? = null
     var isRefreshing = false
+    var isPaginationEnd = false
     private val _listItem by lazy {
         mutableListOf<GithubRepoDTO>()
     }
@@ -25,6 +26,8 @@ class GithubRepoAdapter : ListAdapter<GithubRepoDTO, GithubRepoAdapter.BaseViewH
     override fun getItemViewType(position: Int): Int {
         return if (isRefreshing && position == _listItem.size) {
             R.layout.loading_item_github_repo
+        } else if (isPaginationEnd && position == _listItem.size) {
+            R.layout.item_github_repo_end_list
         } else {
             R.layout.item_github_repo
         }
@@ -34,12 +37,13 @@ class GithubRepoAdapter : ListAdapter<GithubRepoDTO, GithubRepoAdapter.BaseViewH
         val view = LayoutInflater.from(parent.context).inflate(viewType, parent, false)
         return when (viewType) {
             R.layout.loading_item_github_repo -> LoadingViewHolder(view)
-            else -> ViewHolder(view)
+            R.layout.item_github_repo -> ViewHolder(view)
+            else -> object : BaseViewHolder(view) {}
         }
     }
 
     override fun getItemCount(): Int {
-        return if (isRefreshing) {
+        return if (isRefreshing || isPaginationEnd) {
             _listItem.size + 1
         } else {
             _listItem.size
@@ -64,6 +68,12 @@ class GithubRepoAdapter : ListAdapter<GithubRepoDTO, GithubRepoAdapter.BaseViewH
     fun onLoadingMore() {
         isRefreshing = true
         notifyItemInserted(_listItem.size)
+    }
+
+    fun onPaginationEnd() {
+        isRefreshing = false
+        isPaginationEnd = true
+        notifyItemChanged(_listItem.size)
     }
 
     fun onAdd(data: List<GithubRepoDTO>) {

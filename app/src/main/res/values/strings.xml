@@ -18,4 +18,5 @@
     <string name="internet_connected_title">Kết nối internet đã sẵn sàng</string>
     <string name="reload_title">Reload\n</string>
     <string name="btn_scroll_to_top_content_description">Scroll to top</string>
+    <string name="no_more_repos_available_title">No more repos available</string>
 </resources>
