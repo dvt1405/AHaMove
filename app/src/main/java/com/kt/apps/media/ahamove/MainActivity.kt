@@ -29,6 +29,7 @@ import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.kt.apps.media.ahamove.databinding.ActivityMainBinding
 import com.kt.apps.media.core.models.DataState
 import com.kt.apps.media.core.utils.format
+import com.kt.apps.media.core.utils.loadImageUrl
 import com.kt.skeleton.KunSkeleton
 import com.kt.skeleton.RecyclerViewSkeletonScreen
 import com.kt.skeleton.ViewSkeletonScreen
@@ -180,6 +181,7 @@ class MainActivity : AppCompatActivity() {
                         userFormLoading = null
                     }
                     val data = dataState.data
+                    binding.userLogo.loadImageUrl(data.avatarUrl)
                     binding.userName.text = data.name
                     binding.userDescription.text = data.description
                     binding.userLocation.text = data.location

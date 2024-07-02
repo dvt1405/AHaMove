@@ -58,6 +58,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.swiperefreshlayout)
     kapt(libs.dagger.hilt.compiler)
+    implementation(libs.glide)
+    kapt(libs.glide.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

@@ -61,8 +61,12 @@ dependencies {
     implementation(libs.okhttp)
     implementation(libs.okhttp.logging.interceptor)
     implementation(libs.dagger.hilt)
+    implementation(libs.glide)
+    kapt(libs.glide.compiler)
     kapt(libs.dagger.hilt.compiler)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation(project(":skeleton"))
 }
