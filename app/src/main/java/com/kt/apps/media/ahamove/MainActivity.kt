@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
@@ -32,6 +33,8 @@ import com.kt.skeleton.KunSkeleton
 import com.kt.skeleton.RecyclerViewSkeletonScreen
 import com.kt.skeleton.ViewSkeletonScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
+import java.util.concurrent.atomic.AtomicInteger
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
@@ -41,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private val adapter by lazy { GithubRepoAdapter() }
     private var userFormLoading: ViewSkeletonScreen? = null
     private var reposLoading: RecyclerViewSkeletonScreen? = null
+    private val scrollToTopThreshold = AtomicInteger(0)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -61,19 +65,40 @@ class MainActivity : AppCompatActivity() {
         }
         handleUserInfo()
         handleRepos()
+        binding.btnScrollToTop.hide()
+        binding.btnScrollToTop.setOnClickListener {
+            binding.recyclerView.scrollToPosition(0)
+            binding.appBar.setExpanded(true)
+        }
         binding.recyclerView.addOnScrollListener(object : OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                (recyclerView.layoutManager as? LinearLayoutManager)?.run {
-                    val lastVisibleItem = this.findLastVisibleItemPosition()
-                    if (!adapter.isRefreshing && lastVisibleItem == adapter.itemCount - 1 &&
-                        !viewModel.isRepoLoading()
-                    ) {
-                        viewModel.loadMoreRepos()
-                    }
+                lifecycleScope.launch {
+                    handleRecyclerScrolled(recyclerView)
                 }
             }
         })
+    }
+
+    private fun handleRecyclerScrolled(recyclerView: RecyclerView) {
+        (recyclerView.layoutManager as? LinearLayoutManager)?.run {
+            val lastVisibleItem = this.findLastVisibleItemPosition()
+            scrollToTopThreshold.compareAndSet(0, lastVisibleItem)
+            if (lastVisibleItem > scrollToTopThreshold.get() + 5) {
+                if (!binding.btnScrollToTop.isShown) {
+                    binding.btnScrollToTop.show()
+                }
+            } else {
+                if (binding.btnScrollToTop.isShown) {
+                    binding.btnScrollToTop.hide()
+                }
+            }
+            if (!adapter.isRefreshing && lastVisibleItem == adapter.itemCount - 1 &&
+                !viewModel.isRepoLoading()
+            ) {
+                viewModel.loadMoreRepos()
+            }
+        }
     }
 
     override fun onStart() {
