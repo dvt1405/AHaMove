@@ -5,6 +5,7 @@ import com.kt.apps.media.core.BuildConfig
 import com.kt.apps.media.core.api.GithubAPI
 import com.kt.apps.media.core.di.qualifiers.CoroutineDispatcherType
 import com.kt.apps.media.core.di.qualifiers.CoroutineScopeQualifier
+import com.kt.apps.media.core.network.AuthInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -27,6 +28,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
     const val LOGGING_INTERCEPTOR = "named:logging"
+    const val AUTH_INTERCEPTOR = "named:auths_intercept"
     const val TIMEOUT_DEFAULT = 60_000L
 
     @Provides
@@ -42,15 +44,24 @@ object NetworkModule {
     }
 
     @Provides
+    @Named(AUTH_INTERCEPTOR)
+    fun provideAuthInterceptor(): Interceptor {
+        return AuthInterceptor()
+    }
+
+    @Provides
     @Singleton
     fun provideHttpClient(
         @Named(LOGGING_INTERCEPTOR)
-        interceptor: Interceptor
+        interceptor: Interceptor,
+        @Named(AUTH_INTERCEPTOR)
+        authInterceptor: Interceptor,
     ): OkHttpClient {
         return OkHttpClient.Builder()
             .connectTimeout(TIMEOUT_DEFAULT, TimeUnit.MILLISECONDS)
             .readTimeout(TIMEOUT_DEFAULT, TimeUnit.MILLISECONDS)
-            .addNetworkInterceptor(interceptor)
+            .addInterceptor(authInterceptor)
+            .addInterceptor(interceptor)
             .build()
     }
 
