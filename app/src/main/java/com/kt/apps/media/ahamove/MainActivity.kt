@@ -186,9 +186,9 @@ class MainActivity : AppCompatActivity() {
                     binding.userLink.text = data.blog
                     val followerNumStr = data.followers.format()
                     val followersStr = if (data.followers > 1) {
-                        "followers"
+                        getString(R.string.followers_title)
                     } else {
-                        "follower"
+                        getString(R.string.follower_title)
                     }
                     val span = SpannableString("$followerNumStr $followersStr")
                     span.setSpan(
